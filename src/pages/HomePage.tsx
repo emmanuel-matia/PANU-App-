@@ -4,6 +4,7 @@ import { ShareButtonWithOpenGraph } from '../components/share/ShareButtonWithOpe
 import { DynamicTemplateGallery } from '../components/studio/DynamicTemplateGallery';
 import { PanuTopNavbar } from '../components/nav/PanuTopNavbar';
 import { PanuShortsFeedPlayer } from '../components/feed/PanuShortsFeedPlayer';
+import { LiveFeed } from '../components/feed/LiveFeed';
 import { CinetPayRechargeModal } from '../components/payment/CinetPayRechargeModal';
 
 export interface FeedVideoPost {
@@ -533,10 +534,10 @@ export const HomePage: React.FC = () => {
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
             <h3 style={{ margin: 0, color: '#E5A93C', fontSize: 13, display: 'flex', alignItems: 'center', gap: 6 }}>
               <span>📹</span>
-              <span>Nouvelle publication (Bucket: post-media)</span>
+              <span>Nouvelle publication</span>
             </h3>
             <span style={{ fontSize: 11, color: '#2ED573', fontWeight: 700 }}>
-              ● Synchronisation Supabase Directe
+              ● En direct
             </span>
           </div>
 
@@ -648,6 +649,7 @@ export const HomePage: React.FC = () => {
         {/* ============================================================================== */}
         {activeTab === 'for_you' || activeTab === 'trending' ? (
           <div>
+            <LiveFeed />
             <PanuShortsFeedPlayer
               posts={posts}
               onOpenTemplates={() => setShowTemplatesModal(true)}

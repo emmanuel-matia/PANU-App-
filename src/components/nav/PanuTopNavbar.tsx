@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { supabase, FOUNDER_EMAIL } from '../../lib/supabaseClient';
 import { CinetPayRechargeModal } from '../payment/CinetPayRechargeModal';
+import { Search, Menu } from 'lucide-react';
 
 interface PanuTopNavbarProps {
   onOpenTemplates?: () => void;
@@ -168,188 +169,30 @@ export const PanuTopNavbar: React.FC<PanuTopNavbarProps> = ({
 
   return (
     <>
-      <header
-        style={{
-          backgroundColor: '#10121A',
-          borderBottom: '1px solid rgba(229, 169, 60, 0.25)',
-          padding: '10px 16px',
-          position: 'sticky',
-          top: 0,
-          zIndex: 900,
-          backdropFilter: 'blur(12px)',
-        }}
-      >
-        <div
-          style={{
-            maxWidth: 1200,
-            margin: '0 auto',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            gap: 12,
-          }}
-        >
-          {/* 1. ALIGNEMENT À GAUCHE : LOGO PANU LISIBLE ET ALIGNÉ SANS CHEVAUCHEMENT */}
-          <div
-            onClick={() => handleNav('/')}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 10,
-              cursor: 'pointer',
-              userSelect: 'none',
-              minWidth: 160,
-            }}
+      <header className="w-full bg-white border-b border-gray-100 px-4 py-3 flex items-center justify-between sticky top-0 z-50">
+        {/* CÔTÉ GAUCHE : LOGO PANU SEUL ET NET */}
+        <div className="flex items-center cursor-pointer" onClick={() => handleNav('/')}>
+          <span className="text-2xl font-black tracking-wider text-black font-sans uppercase">
+            PANU
+          </span>
+        </div>
+
+        {/* CÔTÉ DROIT : STRICTEMENT 2 ICÔNES */}
+        <div className="flex items-center gap-4 text-gray-700">
+          <button 
+            onClick={() => setShowSearchModal(true)}
+            className="p-1.5 hover:bg-gray-100 rounded-full transition-colors" 
+            aria-label="Recherche"
           >
-            <div
-              style={{
-                width: 38,
-                height: 38,
-                backgroundColor: '#E5A93C',
-                color: '#000',
-                fontWeight: 900,
-                borderRadius: 10,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontSize: 22,
-                boxShadow: '0 2px 12px rgba(229, 169, 60, 0.45)',
-                flexShrink: 0,
-              }}
-            >
-              P
-            </div>
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                <span
-                  style={{
-                    fontWeight: 900,
-                    fontSize: 18,
-                    letterSpacing: '1px',
-                    color: '#FFF',
-                    lineHeight: 1,
-                  }}
-                >
-                  PANU
-                </span>
-                <span
-                  style={{
-                    fontSize: 9,
-                    color: '#2ED573',
-                    backgroundColor: 'rgba(46, 213, 115, 0.15)',
-                    padding: '2px 6px',
-                    borderRadius: 999,
-                    fontWeight: 800,
-                    border: '1px solid rgba(46, 213, 115, 0.35)',
-                    lineHeight: 1,
-                  }}
-                >
-                  ● EN DIRECT
-                </span>
-              </div>
-              <span style={{ fontSize: 10, color: '#8E92A4', marginTop: 3 }}>
-                Studio Vidéo & Matchs
-              </span>
-            </div>
-          </div>
-
-          {/* 2. ALIGNEMENT À DROITE : EXACTEMENT MAXIMUM 3 ICÔNES ÉPURÉES */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-            {/* 1ère ICÔNE : RECHERCHE (🔍) */}
-            <button
-              type="button"
-              onClick={() => setShowSearchModal(true)}
-              title="Rechercher des créateurs, matchs, templates ou vidéos"
-              style={{
-                width: 40,
-                height: 40,
-                borderRadius: 12,
-                backgroundColor: 'rgba(255, 255, 255, 0.06)',
-                border: '1px solid rgba(255, 255, 255, 0.1)',
-                color: '#FFF',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontSize: 17,
-                cursor: 'pointer',
-                transition: 'all 0.2s ease',
-              }}
-            >
-              🔍
-            </button>
-
-            {/* 2ème ICÔNE : NOTIFICATIONS (🔔 AVEC BADGE D'ALERTES DYNAMIQUE) */}
-            <button
-              type="button"
-              onClick={() => setShowNotificationsDrawer(true)}
-              title="Centre d'alertes & notifications en direct"
-              style={{
-                width: 40,
-                height: 40,
-                borderRadius: 12,
-                backgroundColor: 'rgba(255, 255, 255, 0.06)',
-                border: '1px solid rgba(255, 255, 255, 0.1)',
-                color: '#FFF',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontSize: 18,
-                cursor: 'pointer',
-                position: 'relative',
-                transition: 'all 0.2s ease',
-              }}
-            >
-              🔔
-              {unreadCount > 0 && (
-                <span
-                  style={{
-                    position: 'absolute',
-                    top: -4,
-                    right: -4,
-                    backgroundColor: '#FF2E4C',
-                    color: '#FFF',
-                    fontSize: 10,
-                    fontWeight: 900,
-                    width: 18,
-                    height: 18,
-                    borderRadius: '50%',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    border: '2px solid #10121A',
-                    boxShadow: '0 0 8px #FF2E4C',
-                  }}
-                >
-                  {unreadCount}
-                </span>
-              )}
-            </button>
-
-            {/* 3ème ICÔNE : MENU HAMBURGER (☰) */}
-            <button
-              type="button"
-              onClick={() => setShowHamburgerDrawer(true)}
-              title="Menu principal & navigation PANU"
-              style={{
-                width: 40,
-                height: 40,
-                borderRadius: 12,
-                backgroundColor: '#E5A93C',
-                border: 'none',
-                color: '#000',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontSize: 20,
-                fontWeight: 900,
-                cursor: 'pointer',
-                boxShadow: '0 2px 10px rgba(229, 169, 60, 0.4)',
-                transition: 'all 0.2s ease',
-              }}
-            >
-              ☰
-            </button>
-          </div>
+            <Search className="w-6 h-6"/>
+          </button>
+          <button 
+            onClick={() => setShowHamburgerDrawer(true)}
+            className="p-1.5 hover:bg-gray-100 rounded-full transition-colors" 
+            aria-label="Menu"
+          >
+            <Menu className="w-6 h-6"/>
+          </button>
         </div>
       </header>
 
@@ -1096,4 +939,5 @@ export const PanuTopNavbar: React.FC<PanuTopNavbarProps> = ({
   );
 };
 
+export const Header = PanuTopNavbar;
 export default PanuTopNavbar;

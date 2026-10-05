@@ -511,7 +511,7 @@ Prompt créatif utilisateur : ${customPrompt.trim()}`;
         });
 
         setPublishSuccessMessage(
-          `🎉 Votre création interactive "${canvasTitle || selectedTemplate.title}" a été enregistrée dans Supabase Storage (post-media) et publiée avec succès sur PANU !`
+          `🎉 Votre création interactive "${canvasTitle || selectedTemplate.title}" a été publiée avec succès sur PANU !`
         );
         onPublishedSuccess?.(published);
       } catch (err: any) {
